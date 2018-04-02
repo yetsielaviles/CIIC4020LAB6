@@ -27,9 +27,11 @@ public class ArrayQueue<E> implements Queue<E> {
     public E dequeue() {
         if (isEmpty()) return null;
         E etr = elements[first]; 
-
-       
-
+        for(int i=first+1; i< size; i++ ){
+        	elements[i-1]= elements[i];
+        }
+        	
+        size--;
         // Check if number of available positions in the array exceed 3/4
         // of its total length. If so, and if the current capacity is not
         // less than 2*INITCAP, shrink the internal array to 1/2 of its
@@ -48,23 +50,13 @@ public class ArrayQueue<E> implements Queue<E> {
 
     private void changeCapacity(int newCapacity) { 
         // PRE: newCapacity >= size
-    	 E[] arr = (E[]) new Object[size * 2];
-         int currElem = 0;
-         for (int i = first; i < size; i++) {
-             if (elements[i] != null) {
-                 arr[currElem] = elements[i];
-                 currElem++;
-             }
-         }
-         for (int i = 0; i < first; i++) {
-             if (elements[i] != null) {
-                 arr[currElem] = elements[i];
-                 currElem++;
-             }
-         }
-         first = 0;
-         back = size;
-         return arr;
+    	 
+    	E[] arr = (E[]) new Object[newCapacity];
+    	for (int i=0; i<elements.length; i++) { 
+    		arr[i] = elements[i]; 
+			elements[i] = null; 
+		} 
+    	elements = arr; 
         
     }
 }
